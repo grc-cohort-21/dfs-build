@@ -42,7 +42,7 @@ public class Build {
    * @return the longest reachable word, or an empty string if the vertex is null
    */
   public static String longestWord(Vertex<String> vertex) {
-    
+
     if (vertex == null) return "";
 
     Set<Vertex<String>> visited = new HashSet<>();
@@ -79,6 +79,29 @@ public class Build {
    * @param <T> the type of values stored in the vertices
    */
   public static <T> void printSelfLoopers(Vertex<T> vertex) {
+    if (vertex == null) return;
+
+    Set<Vertex<T>> visited = new HashSet<>();
+
+    
+    dfsSelfLoopers(vertex, visited);
+}
+
+  public static <T> void dfsSelfLoopers(Vertex<T> current, Set<Vertex<T>> visited) {
+
+
+    if (visited.contains(current)) return;
+
+    visited.add(current);
+
+    if (current.neighbors.contains(current)) {
+
+        System.out.println(current.data);  
+    }
+
+    for (Vertex<T> neighbor : current.neighbors) {
+        dfsSelfLoopers(neighbor, visited);
+    }
   }
 
   /**
