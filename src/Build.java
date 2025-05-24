@@ -42,7 +42,33 @@ public class Build {
    * @return the longest reachable word, or an empty string if the vertex is null
    */
   public static String longestWord(Vertex<String> vertex) {
-    return "";
+    
+    if (vertex == null) return "";
+
+    Set<Vertex<String>> visited = new HashSet<>();
+    return dfsLongest(vertex, visited);
+}
+
+  public static String dfsLongest(Vertex<String> current, Set<Vertex<String>> visited) {
+    if (visited.contains(current)) return "";
+
+
+    visited.add(current);
+
+    String longest = current.data != null ? current.data : "";
+
+    for (Vertex<String> neighbor : current.neighbors) {
+
+        String candidate = dfsLongest(neighbor, visited);
+
+        if (candidate.length() > longest.length()) {
+
+            longest = candidate;
+        }
+    }
+
+    return longest;
+    
   }
 
   /**
