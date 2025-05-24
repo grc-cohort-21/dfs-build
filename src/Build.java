@@ -83,7 +83,7 @@ public class Build {
 
     Set<Vertex<T>> visited = new HashSet<>();
 
-    
+
     dfsSelfLoopers(vertex, visited);
 }
 
@@ -113,6 +113,31 @@ public class Build {
    * @return true if the destination is reachable from the start, false otherwise
    */
   public static boolean canReach(Airport start, Airport destination) {
+    if (start == null || destination == null) return false;
+
+    
+    if (start == destination) return true;
+
+    Set<Airport> visited = new HashSet<>();
+
+    return dfs(start, destination, visited);
+}
+
+private static boolean dfs(Airport current, Airport destination, Set<Airport> visited) {
+    if (current == destination) return true;
+    visited.add(current);
+
+    for (Airport next : current.getOutboundFlights()) {
+
+        if (!visited.contains(next)) {
+
+            if (dfs(next, destination, visited)) {
+
+                return true;
+            }
+        }
+    }
+
     return false;
   }
 
