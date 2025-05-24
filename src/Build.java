@@ -115,7 +115,7 @@ public class Build {
   public static boolean canReach(Airport start, Airport destination) {
     if (start == null || destination == null) return false;
 
-    
+
     if (start == destination) return true;
 
     Set<Airport> visited = new HashSet<>();
@@ -123,7 +123,7 @@ public class Build {
     return dfs(start, destination, visited);
 }
 
-private static boolean dfs(Airport current, Airport destination, Set<Airport> visited) {
+public static boolean dfs(Airport current, Airport destination, Set<Airport> visited) {
     if (current == destination) return true;
     visited.add(current);
 
@@ -151,6 +151,37 @@ private static boolean dfs(Airport current, Airport destination, Set<Airport> vi
    * @return a set of values that cannot be reached from the starting value
    */
   public static <T> Set<T> unreachable(Map<T, List<T>> graph, T starting) {
-    return new HashSet<>();
+     Set<T> visited = new HashSet<>();
+
+    if (!graph.containsKey(starting)) {
+
+        return new HashSet<>(graph.keySet());  
+    }
+
+    dfs(starting, graph, visited);
+
+    Set<T> result = new HashSet<>(graph.keySet());
+    result.removeAll(visited);  
+
+    return result;
+}
+
+public static <T> void dfs(T current, Map<T, List<T>> graph, Set<T> visited) {
+
+    if (visited.contains(current)) return;
+
+    visited.add(current);
+
+
+    List<T> neighbors = graph.get(current);
+    if (neighbors != null) {
+
+
+        for (T neighbor : neighbors) {
+
+          
+            dfs(neighbor, graph, visited);
+        }
+    }
   }
 }
